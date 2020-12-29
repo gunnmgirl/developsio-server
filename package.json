@@ -1,0 +1,32 @@
+{
+  "name": "developsio-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --require dotenv/config -r esm src/index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gunnmgirl/developsio-server.git"
+  },
+  "author": "Dzana K",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gunnmgirl/developsio-server/issues"
+  },
+  "homepage": "https://github.com/gunnmgirl/developsio-server#readme",
+  "devDependencies": {
+    "dotenv": "^8.2.0",
+    "nodemon": "^2.0.6"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "esm": "^3.2.25",
+    "express": "^4.17.1",
+    "mysql2": "^2.2.5",
+    "sequelize": "^6.3.5"
+  }
+}
