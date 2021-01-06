@@ -5,7 +5,6 @@ import People from "../people/peopleModel";
 
 const signup = async (req, res, next) => {
   try {
-    const result = await imageUploader.upload(req.files[0].path);
     const person = await People.create({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
@@ -17,14 +16,18 @@ const signup = async (req, res, next) => {
       phoneNumber: req.body.phoneNumber,
       skype: req.body.skype,
       previousPositions: req.body.previousPositions,
-      imageUrl: result.url,
     });
-    fs.unlink(req.files[0].path, (error) => {
-      if (error) {
-        throw new Error("Could not delete a file", error);
-      }
-      console.log("successfully deleted");
-    });
+    if (req.files && req.files[0] && req.files[0].path) {
+      const result = await imageUploader.upload(req.files[0].path);
+      person.imageUrl = result.url;
+      await person.save();
+      fs.unlink(req.files[0].path, (error) => {
+        if (error) {
+          throw new Error("Could not delete a file", error);
+        }
+        console.log("Successfully deleted");
+      });
+    }
     res.sendStatus(200);
   } catch (error) {
     if (!error.statusCode) {
