@@ -10,9 +10,9 @@ const upload = multer({ dest: "uploads/" });
 
 router.post(
   "/signup",
+  upload.any("imageFile"),
   validateSignup,
   isValid,
-  upload.any("imageFile"),
   authController.signup
 );
 
