@@ -14,13 +14,13 @@ const People = sequelize.define(
     jobPosition: {
       type: Sequelize.STRING,
     },
-    country: { type: Sequelize.STRING(100), allowNull: false },
+    country: { type: Sequelize.STRING(3), allowNull: false },
     city: { type: Sequelize.STRING(50), allowNull: false },
     streetAddress: { type: Sequelize.STRING(100), allowNull: false },
     phoneNumber: { type: Sequelize.STRING(15), allowNull: false },
     previousPositions: { type: Sequelize.TEXT, allowNull: false },
     skype: { type: Sequelize.STRING },
-    imageUrl: { type: Sequelize.STRING },
+    imageUrl: { type: Sequelize.STRING, default: null },
   },
   {
     timestamps: true,
