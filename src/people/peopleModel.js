@@ -1,6 +1,7 @@
 import Sequelize from "sequelize";
 
 import sequelize from "../database/connection";
+import Position from "../positions/positionsModel";
 
 const People = sequelize.define(
   "people",
@@ -26,5 +27,7 @@ const People = sequelize.define(
     timestamps: true,
   }
 );
+
+People.hasOne(Position);
 
 export default People;
