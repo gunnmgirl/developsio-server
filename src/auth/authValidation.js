@@ -1,33 +1,33 @@
-import { check } from "express-validator/check";
+import { body } from "express-validator/check";
 
 export const validateSignup = [
-  check("firstName").notEmpty().withMessage("First name is required!"),
-  check("lastName").notEmpty().withMessage("Last name is required!"),
-  check("email")
+  body("firstName").notEmpty().withMessage("First name is required!"),
+  body("lastName").notEmpty().withMessage("Last name is required!"),
+  body("email")
     .normalizeEmail()
     .isEmail()
     .withMessage("Must be a valid email!"),
-  check("jobPosition").notEmpty().withMessage("Job position is required!"),
-  check("country")
+  body("jobPosition").notEmpty().withMessage("Job position is required!"),
+  body("country")
     .notEmpty()
     .withMessage("Country is required!")
     .isLength({ max: 3 }),
-  check("city")
+  body("city")
     .notEmpty()
     .withMessage("City is required!")
     .isLength({ max: 50 })
     .withMessage("Must be less that 50 characters!"),
-  check("streetAddress")
+  body("streetAddress")
     .notEmpty()
     .withMessage("Street address is required!")
     .isLength({ max: 100 })
     .withMessage("Must be less that 100 characters!"),
-  check("phoneNumber")
+  body("phoneNumber")
     .notEmpty()
     .withMessage("Phone number is required!")
     .isLength({ max: 15 })
     .withMessage("Must be less that 15 characters!"),
-  check("previousPositions")
+  body("previousPositions")
     .notEmpty()
     .withMessage("Previous positions is a required field"),
 ];
