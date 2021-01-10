@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("people", {
+    await queryInterface.createTable("persons", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -19,16 +19,21 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      jobPosition: {
+      password: {
+        type: Sequelize.STRING(100),
+      },
+      imageUrl: {
         type: Sequelize.STRING,
       },
-      country: { type: Sequelize.STRING(3), allowNull: false },
-      city: { type: Sequelize.STRING(), allowNull: false },
-      streetAddress: { type: Sequelize.STRING(), allowNull: false },
-      phoneNumber: { type: Sequelize.STRING(50), allowNull: false },
-      previousPositions: { type: Sequelize.TEXT, allowNull: false },
-      skype: { type: Sequelize.STRING },
-      imageUrl: { type: Sequelize.STRING, default: null },
+      roleId: {
+        type: Sequelize.INTEGER.UNSIGNED,
+        onDelete: "CASCADE",
+        references: {
+          model: "Roles",
+          key: "id",
+          as: "roleId",
+        },
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -42,6 +47,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("people");
+    await queryInterface.dropTable("persons");
   },
 };

@@ -1,21 +1,16 @@
 import fs from "fs";
 
 import imageUploader from "../utils/imageUploader";
-import People from "../people/peopleModel";
+import Person from "../persons/personsModel";
+import Applicant from "../applicants/applicantsModel";
 
 const signup = async (req, res, next) => {
   try {
-    const person = await People.create({
+    const person = await Person.create({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
-      jobPosition: req.body.jobPosition,
-      country: req.body.country,
-      city: req.body.city,
-      streetAddress: req.body.streetAddress,
-      phoneNumber: req.body.phoneNumber,
-      skype: req.body.skype,
-      previousPositions: req.body.previousPositions,
+      roleId: 1,
     });
     if (req.files && req.files[0] && req.files[0].path) {
       const result = await imageUploader.upload(req.files[0].path);
@@ -28,6 +23,17 @@ const signup = async (req, res, next) => {
         console.log("Successfully deleted");
       });
     }
+    const applicant = await Applicant.create({
+      country: req.body.country,
+      city: req.body.city,
+      streetAddress: req.body.streetAddress,
+      phoneNumber: req.body.phoneNumber,
+      previousPositions: req.body.previousPositions,
+      skype: req.body.skype,
+      status: "Submitted Application",
+      personId: person.dataValues.id,
+      positionId: req.body.positionId,
+    });
     res.sendStatus(200);
   } catch (error) {
     if (!error.statusCode) {

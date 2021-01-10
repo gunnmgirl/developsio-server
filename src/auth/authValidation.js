@@ -7,7 +7,7 @@ export const validateSignup = [
     .normalizeEmail()
     .isEmail()
     .withMessage("Must be a valid email!"),
-  body("jobPosition").notEmpty().withMessage("Job position is required!"),
+  body("positionId").notEmpty().withMessage("Job position is required!"),
   body("country")
     .notEmpty()
     .withMessage("Country is required!")
