@@ -2,7 +2,7 @@ import express from "express";
 import multer from "multer";
 
 import authController from "./authController";
-import { validateSignup } from "../auth/authValidation";
+import { validateSignup, validateLogin } from "../auth/authValidation";
 import isValid from "../middleware/isValid";
 
 const router = express.Router();
@@ -15,5 +15,7 @@ router.post(
   isValid,
   authController.signup
 );
+
+router.post("/login", validateLogin, isValid, authController.login);
 
 export default router;
