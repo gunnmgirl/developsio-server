@@ -47,9 +47,9 @@ const signup = async (req, res, next) => {
 const login = async (req, res, next) => {
   const { email } = req.body;
   try {
-    const admin = await Person.findOne({ where: { email: email } });
+    const person = await Person.findOne({ where: { email: email } });
     const token = jwt.sign(
-      { email: admin.email, adminId: admin.id },
+      { email: person.email, personId: person.id },
       process.env.SECRET,
       { expiresIn: "1d" }
     );
