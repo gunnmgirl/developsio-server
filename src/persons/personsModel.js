@@ -6,7 +6,12 @@ import Note from "../notes/notesModel";
 const Person = sequelize.define(
   "persons",
   {
-    id: { type: Sequelize.BIGINT.UNSIGNED, primaryKey: true, allowNull: false },
+    id: {
+      type: Sequelize.BIGINT.UNSIGNED,
+      primaryKey: true,
+      allowNull: false,
+      autoIncrement: true,
+    },
     firstName: { type: Sequelize.STRING, allowNull: false },
     lastName: { type: Sequelize.STRING, allowNull: false },
     email: {
