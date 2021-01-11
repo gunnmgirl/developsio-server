@@ -14,5 +14,6 @@ const Role = sequelize.define(
 );
 
 Role.hasMany(Person);
+Person.belongsTo(Role);
 
 export default Role;
