@@ -1,4 +1,5 @@
 import fs from "fs";
+import jwt from "jsonwebtoken";
 
 import imageUploader from "../utils/imageUploader";
 import Person from "../persons/personsModel";
@@ -43,4 +44,22 @@ const signup = async (req, res, next) => {
   }
 };
 
-export default { signup };
+const login = async (req, res, next) => {
+  const { email } = req.body;
+  try {
+    const admin = await Person.findOne({ where: { email: email } });
+    const token = jwt.sign(
+      { email: admin.email, adminId: admin.id },
+      process.env.SECRET,
+      { expiresIn: "1d" }
+    );
+    res.status(200).send(token);
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};
+
+export default { signup, login };
