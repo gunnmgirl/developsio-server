@@ -19,4 +19,6 @@ app.use((error, req, res, next) => {
   res.status(error.statusCode).send(error.message);
 });
 
-app.listen(4000, () => console.log(`Running on port 4000`));
+app.listen(process.env.PORT, () =>
+  console.log(`Running on port ${process.env.PORT}`)
+);
