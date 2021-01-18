@@ -16,7 +16,7 @@ module.exports = {
         password: hashed,
         imageUrl:
           "https://res.cloudinary.com/gunnmgirl/image/upload/v1610351296/woman_1_rpgzfh.svg",
-        roleId: 2,
+        roleId: 11,
       },
       {
         createdAt: new Date(),
@@ -27,7 +27,7 @@ module.exports = {
         password: hashed,
         imageUrl:
           "https://res.cloudinary.com/gunnmgirl/image/upload/v1610351332/woman_s99nkm.svg",
-        roleId: 2,
+        roleId: 11,
       },
     ]);
   },
