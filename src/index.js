@@ -6,6 +6,7 @@ import authRoutes from "./auth/authRoutes";
 import positionsRoutes from "./positions/positionsRoutes";
 
 const app = express();
+const port = process.env.PORT || 3306;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -19,6 +20,4 @@ app.use((error, req, res, next) => {
   res.status(error.statusCode).send(error.message);
 });
 
-app.listen(process.env.PORT, () =>
-  console.log(`Running on port ${process.env.PORT}`)
-);
+app.listen(port, () => console.log(`Running on port ${port}`));
