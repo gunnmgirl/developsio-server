@@ -1,4 +1,5 @@
 import { body } from "express-validator/check";
+import fs from "fs";
 
 import Person from "../persons/personsModel";
 import passwordHasher from "../utils/passwordHasher";
@@ -58,3 +59,32 @@ export const validateLogin = [
       }
     }),
 ];
+
+export const validateImage = async (req, res, next) => {
+  try {
+    if (req.files && req.files[0] && req.files[0].path) {
+      if (
+        req.files[0].mimetype !== "image/jpeg" &&
+        req.files[0].mimetype !== "image/png"
+      ) {
+        const error = new Error(
+          "Image type not supported, only jpeg and png files allowed!"
+        );
+        error.statusCode = 400;
+        fs.unlink(req.files[0].path, (error) => {
+          if (error) {
+            throw new Error("Could not delete a file", error);
+          }
+          console.log("Successfully deleted");
+        });
+        throw error;
+      }
+    }
+    next();
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};

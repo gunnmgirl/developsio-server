@@ -6,7 +6,7 @@ import authRoutes from "./auth/authRoutes";
 import positionsRoutes from "./positions/positionsRoutes";
 
 const app = express();
-const port = process.env.PORT || 3306;
+const port = process.env.PORT || 4000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
