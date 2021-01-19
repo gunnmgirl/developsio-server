@@ -10,7 +10,15 @@ export const validateSignup = [
   body("email")
     .normalizeEmail()
     .isEmail()
-    .withMessage("Must be a valid email!"),
+    .withMessage("Must be a valid email!")
+    .custom(async (value) => {
+      const person = await Person.findOne({ where: { email: value } });
+      if (person) {
+        return Promise.reject(
+          "You already registered with this email address!"
+        );
+      }
+    }),
   body("positionId").notEmpty().withMessage("Job position is required!"),
   body("country")
     .notEmpty()
