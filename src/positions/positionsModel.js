@@ -15,5 +15,6 @@ const Position = sequelize.define(
 );
 
 Position.hasMany(Applicant, { foreignKey: "positionId" });
+Applicant.belongsTo(Position);
 
 export default Position;
