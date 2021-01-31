@@ -47,13 +47,16 @@ const signup = async (req, res, next) => {
 const login = async (req, res, next) => {
   const { email } = req.body;
   try {
-    const person = await Person.findOne({ where: { email: email } });
+    const person = await Person.findOne({
+      where: { email: email },
+      attributes: ["id", "imageUrl", "email"],
+    });
     const token = jwt.sign(
       { email: person.email, personId: person.id },
       process.env.SECRET,
       { expiresIn: "1d" }
     );
-    res.status(200).send(token);
+    res.status(200).send({ token, me: person });
   } catch (error) {
     if (!error.statusCode) {
       error.statusCode = 500;
