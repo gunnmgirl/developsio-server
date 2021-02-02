@@ -4,10 +4,12 @@ import Position from "../positions/positionsModel";
 
 const getAllApplicants = async (req, res, next) => {
   const { page, limit } = req.query;
+  const order = req.query.order || "DESC";
   try {
     const count = await Applicant.findAndCountAll();
     const applicants = await Applicant.findAll({
       attributes: ["createdAt", "phoneNumber"],
+      order: [["CreatedAt", order]],
       limit: parseInt(limit, 10),
       offset: parseInt(page, 10) * parseInt(limit, 10),
       include: [
