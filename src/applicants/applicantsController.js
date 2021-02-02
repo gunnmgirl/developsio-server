@@ -1,15 +1,15 @@
 import Applicant from "./applicantsModel";
 import Person from "../persons/personsModel";
 import Position from "../positions/positionsModel";
-import { LIMIT_APPLICANTS } from "../constants/paginationConstants";
 
 const getAllApplicants = async (req, res, next) => {
-  const { page } = req.params;
+  const { page, limit } = req.query;
   try {
+    const count = await Applicant.findAndCountAll();
     const applicants = await Applicant.findAll({
       attributes: ["createdAt", "phoneNumber"],
-      limit: LIMIT_APPLICANTS,
-      offset: parseInt(page, 10) * LIMIT_APPLICANTS,
+      limit: parseInt(limit, 10),
+      offset: parseInt(page, 10) * parseInt(limit, 10),
       include: [
         {
           model: Person,
@@ -18,7 +18,7 @@ const getAllApplicants = async (req, res, next) => {
         { model: Position, attributes: ["name"] },
       ],
     });
-    res.status(200).send(applicants);
+    res.status(200).send({ applicants, count });
   } catch (error) {
     if (!error.statusCode) {
       error.statusCode = 500;
