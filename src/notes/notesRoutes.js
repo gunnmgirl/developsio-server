@@ -1,9 +1,13 @@
 import express from "express";
+import isAuth from "../middleware/isAuth";
 
 import notesController from "./notesController";
+import { validateAddNote } from "./notesValidation";
+import isValid from "../middleware/isValid";
 
 const router = express.Router();
 
-router.get("/", notesController.getNotes);
+router.get("/", isAuth, notesController.getNotes);
+router.post("/", isAuth, validateAddNote, isValid, notesController.addNote);
 
 export default router;
