@@ -1,7 +1,7 @@
 import Note from "./notesModel";
 
 const getNotes = async (req, res, next) => {
-  const { page, limit } = req.body;
+  const { page, limit } = req.query;
   try {
     const count = await Note.findAndCountAll();
     const notes = await Note.findAll({
