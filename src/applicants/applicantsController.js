@@ -3,10 +3,13 @@ import Person from "../persons/personsModel";
 import Position from "../positions/positionsModel";
 
 const getAllApplicants = async (req, res, next) => {
-  const { page, limit } = req.query;
   const order = req.query.order || "DESC";
+  const { page, limit, filter } = req.query;
+  const whereObj = filter ? { name: filter } : {};
   try {
-    const count = await Applicant.findAndCountAll();
+    const count = await Applicant.findAndCountAll({
+      include: [{ model: Position, where: whereObj }],
+    });
     const applicants = await Applicant.findAll({
       attributes: ["createdAt", "phoneNumber"],
       order: [["CreatedAt", order]],
@@ -17,7 +20,7 @@ const getAllApplicants = async (req, res, next) => {
           model: Person,
           attributes: ["firstName", "lastName", "imageUrl", "id"],
         },
-        { model: Position, attributes: ["name"] },
+        { model: Position, attributes: ["name"], where: whereObj },
       ],
     });
     res.status(200).send({ applicants, count });
