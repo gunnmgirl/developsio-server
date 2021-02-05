@@ -6,6 +6,7 @@ import authRoutes from "./auth/authRoutes";
 import positionsRoutes from "./positions/positionsRoutes";
 import applicantsRoutes from "./applicants/applicantsRoutes";
 import notesRoutes from "./notes/notesRoutes";
+import isAuth from "./middleware/isAuth";
 
 const app = express();
 const port = process.env.PORT || 4000;
