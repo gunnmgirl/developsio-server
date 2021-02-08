@@ -43,6 +43,11 @@ const editNote = async (req, res, next) => {
   const { title, body, isPrivate, noteId } = req.body;
   try {
     const note = await Note.findByPk(noteId);
+    if (req.userId !== note.personId) {
+      const error = new Error("Unauthorized");
+      error.statusCode = 401;
+      throw error;
+    }
     note.title = title;
     note.body = body;
     note.isPrivate = isPrivate;
