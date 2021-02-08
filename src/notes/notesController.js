@@ -39,4 +39,21 @@ const addNote = async (req, res, next) => {
   }
 };
 
-export default { getNotes, addNote };
+const editNote = async (req, res, next) => {
+  const { title, body, isPrivate, noteId } = req.body;
+  try {
+    const note = await Note.findByPk(noteId);
+    note.title = title;
+    note.body = body;
+    note.isPrivate = isPrivate;
+    await note.save();
+    res.status(200).send(note);
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};
+
+export default { getNotes, addNote, editNote };
