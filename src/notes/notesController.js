@@ -1,13 +1,16 @@
 import Note from "./notesModel";
 
 const getNotes = async (req, res, next) => {
-  const { page, limit } = req.query;
+  const { page, limit, filter } = req.query;
+  const order = req.query.order || "DESC";
+  const whereObj = filter ? { personId: req.userId } : { isPrivate: 0 };
   try {
     const count = await Note.findAndCountAll();
     const notes = await Note.findAll({
+      where: whereObj,
       limit: parseInt(limit, 10),
       offset: parseInt(page, 10) * parseInt(limit, 10),
-      order: [["CreatedAt", "DESC"]],
+      order: [["updatedAt", order]],
     });
     res.status(200).send({ notes, count });
   } catch (error) {
