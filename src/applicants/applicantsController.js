@@ -12,7 +12,7 @@ const getAllApplicants = async (req, res, next) => {
     });
     const applicants = await Applicant.findAll({
       attributes: ["createdAt", "phoneNumber"],
-      order: [["CreatedAt", order]],
+      order: [["createdAt", order]],
       limit: parseInt(limit, 10),
       offset: parseInt(page, 10) * parseInt(limit, 10),
       include: [
