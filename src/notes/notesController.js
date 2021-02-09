@@ -5,7 +5,7 @@ const getNotes = async (req, res, next) => {
   const order = req.query.order || "DESC";
   const whereObj = filter ? { personId: req.userId } : { isPrivate: 0 };
   try {
-    const count = await Note.findAndCountAll();
+    const count = await Note.findAndCountAll({ where: whereObj });
     const notes = await Note.findAll({
       where: whereObj,
       limit: parseInt(limit, 10),
