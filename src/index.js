@@ -6,8 +6,7 @@ import authRoutes from "./auth/authRoutes";
 import positionsRoutes from "./positions/positionsRoutes";
 import applicantsRoutes from "./applicants/applicantsRoutes";
 import notesRoutes from "./notes/notesRoutes";
-import isAuth from "./middleware/isAuth";
-
+import statusesRoutes from "./statuses/statusesRoutes";
 const app = express();
 const port = process.env.PORT || 4000;
 
@@ -19,6 +18,7 @@ app.use("/auth", authRoutes);
 app.use("/position", positionsRoutes);
 app.use("/applicant", applicantsRoutes);
 app.use("/note", notesRoutes);
+app.use("/status", statusesRoutes);
 
 app.use((error, req, res, next) => {
   console.log("In error middleware", error);

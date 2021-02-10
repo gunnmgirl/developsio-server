@@ -4,7 +4,6 @@ import jwt from "jsonwebtoken";
 import imageUploader from "../utils/imageUploader";
 import Person from "../persons/personsModel";
 import Applicant from "../applicants/applicantsModel";
-import { STATUS } from "../applicants/applicantsConstants";
 
 const signup = async (req, res, next) => {
   try {
@@ -32,7 +31,7 @@ const signup = async (req, res, next) => {
       phoneNumber: req.body.phoneNumber,
       previousPositions: req.body.previousPositions,
       skype: req.body.skype,
-      status: STATUS.submitted,
+      statusId: 1,
       personId: person.dataValues.id,
       positionId: req.body.positionId,
     });
