@@ -1,4 +1,5 @@
 import Note from "./notesModel";
+import Person from "../persons/personsModel";
 
 const getNotes = async (req, res, next) => {
   const { page, limit, filter } = req.query;
@@ -11,6 +12,12 @@ const getNotes = async (req, res, next) => {
       limit: parseInt(limit, 10),
       offset: parseInt(page, 10) * parseInt(limit, 10),
       order: [["updatedAt", order]],
+      include: [
+        {
+          model: Person,
+          attributes: ["firstName", "lastName"],
+        },
+      ],
     });
     res.status(200).send({ notes, count });
   } catch (error) {
@@ -30,6 +37,13 @@ const addNote = async (req, res, next) => {
       isPrivate,
       personId: req.userId,
     });
+
+    const person = await Person.findByPk(req.userId);
+    note.dataValues.person = {
+      firstName: person.dataValues.firstName,
+      lastName: person.dataValues.lastName,
+    };
+    await note.save();
     res.status(200).send(note);
   } catch (error) {
     if (!error.statusCode) {
