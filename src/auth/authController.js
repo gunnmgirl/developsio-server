@@ -4,6 +4,8 @@ import jwt from "jsonwebtoken";
 import imageUploader from "../utils/imageUploader";
 import Person from "../persons/personsModel";
 import Applicant from "../applicants/applicantsModel";
+import { ROLES } from "../roles/rolesConstants";
+import { STATUSES } from "../statuses/statusesConstants";
 
 const signup = async (req, res, next) => {
   try {
@@ -11,7 +13,7 @@ const signup = async (req, res, next) => {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
-      roleId: 1,
+      roleId: ROLES.applicant.id,
     });
     if (req.files && req.files[0] && req.files[0].path) {
       const result = await imageUploader.upload(req.files[0].path);
@@ -31,7 +33,7 @@ const signup = async (req, res, next) => {
       phoneNumber: req.body.phoneNumber,
       previousPositions: req.body.previousPositions,
       skype: req.body.skype,
-      statusId: 1,
+      statusId: STATUSES.submittedApplicantion.id,
       personId: person.dataValues.id,
       positionId: req.body.positionId,
     });

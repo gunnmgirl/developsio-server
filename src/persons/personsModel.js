@@ -22,6 +22,10 @@ const Person = sequelize.define(
       type: Sequelize.STRING,
     },
     imageUrl: { type: Sequelize.STRING, default: null },
+    roleId: {
+      type: Sequelize.INTEGER.UNSIGNED,
+      allowNull: false,
+    },
   },
   {
     timestamps: true,
