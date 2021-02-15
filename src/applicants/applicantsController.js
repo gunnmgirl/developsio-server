@@ -2,6 +2,7 @@ import Applicant from "./applicantsModel";
 import Person from "../persons/personsModel";
 import Status from "../statuses/statusesModel";
 import Position from "../positions/positionsModel";
+import { STATUSES } from "../statuses/statusesConstants";
 
 const getAllApplicants = async (req, res, next) => {
   const order = req.query.order || "DESC";
@@ -43,10 +44,9 @@ const deleteApplicant = async (req, res, next) => {
   const { personId } = req.body;
   try {
     const applicant = await Applicant.findByPk(personId);
-    const status = await Status.findByPk(51);
-    applicant.statusId = status.id;
+    applicant.statusId = STATUSES.deleted.id;
     await applicant.save();
-    res.status(200).send({ status });
+    res.status(200).send({ status: STATUSES.deleted });
   } catch (error) {
     if (!error.statusCode) {
       error.statusCode = 500;
@@ -55,4 +55,19 @@ const deleteApplicant = async (req, res, next) => {
   }
 };
 
-export default { getAllApplicants, deleteApplicant };
+const restoreApplicant = async (req, res, next) => {
+  const { personId } = req.body;
+  try {
+    const applicant = await Applicant.findByPk(personId);
+    applicant.statusId = STATUSES.submittedApplicantion.id;
+    await applicant.save();
+    res.status(200).send({ status: STATUSES.submittedApplicantion });
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};
+
+export default { getAllApplicants, deleteApplicant, restoreApplicant };
