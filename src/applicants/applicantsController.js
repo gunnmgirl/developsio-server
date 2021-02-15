@@ -93,9 +93,25 @@ const restoreApplicant = async (req, res, next) => {
   }
 };
 
+const changeApplicantStatus = async (req, res, next) => {
+  const { statusId, personId } = req.body;
+  try {
+    const applicant = await Applicant.findByPk(personId);
+    applicant.statusId = statusId;
+    await applicant.save();
+    res.status(200).send({});
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};
+
 export default {
   getAllApplicants,
   deleteApplicant,
   restoreApplicant,
   getApplicant,
+  changeApplicantStatus,
 };
