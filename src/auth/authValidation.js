@@ -20,10 +20,7 @@ export const validateSignup = [
       }
     }),
   body("positionId").notEmpty().withMessage("Job position is required!"),
-  body("country")
-    .notEmpty()
-    .withMessage("Country is required!")
-    .isLength({ max: 3 }),
+  body("country").notEmpty().withMessage("Country is required!"),
   body("city")
     .notEmpty()
     .withMessage("City is required!")

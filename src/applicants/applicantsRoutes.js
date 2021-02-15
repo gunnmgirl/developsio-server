@@ -6,6 +6,7 @@ import applicantsController from "./applicantsController";
 const router = express.Router();
 
 router.get("/all/:page", isAuth, applicantsController.getAllApplicants);
+router.get("/:id", isAuth, applicantsController.getApplicant);
 router.delete("/", isAuth, applicantsController.deleteApplicant);
 router.post("/", isAuth, applicantsController.restoreApplicant);
 

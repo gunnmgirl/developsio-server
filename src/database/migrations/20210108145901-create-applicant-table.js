@@ -22,7 +22,7 @@ module.exports = {
           as: "personId",
         },
       },
-      country: { type: Sequelize.STRING(3), allowNull: false },
+      country: { type: Sequelize.STRING, allowNull: false },
       city: { type: Sequelize.STRING(), allowNull: false },
       streetAddress: { type: Sequelize.STRING(), allowNull: false },
       phoneNumber: { type: Sequelize.STRING(50), allowNull: false },
