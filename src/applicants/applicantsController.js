@@ -40,6 +40,29 @@ const getAllApplicants = async (req, res, next) => {
   }
 };
 
+const getApplicant = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const applicant = await Applicant.findOne({
+      personId: id,
+      include: [
+        { model: Status, attributes: ["name"] },
+        {
+          model: Person,
+        },
+        { model: Position, attributes: ["name"] },
+      ],
+      where: { personId: id },
+    });
+    res.status(200).send(applicant);
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};
+
 const deleteApplicant = async (req, res, next) => {
   const { personId } = req.body;
   try {
@@ -70,4 +93,9 @@ const restoreApplicant = async (req, res, next) => {
   }
 };
 
-export default { getAllApplicants, deleteApplicant, restoreApplicant };
+export default {
+  getAllApplicants,
+  deleteApplicant,
+  restoreApplicant,
+  getApplicant,
+};
