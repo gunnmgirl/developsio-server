@@ -1,4 +1,5 @@
 import Note from "./notesModel";
+import Person from "../persons/personsModel";
 
 const getNotes = async (req, res, next) => {
   const { page, limit, filter } = req.query;
@@ -11,6 +12,7 @@ const getNotes = async (req, res, next) => {
       limit: parseInt(limit, 10),
       offset: parseInt(page, 10) * parseInt(limit, 10),
       order: [["updatedAt", order]],
+      include: [{ model: Person, attributes: ["firstName", "lastName"] }],
     });
     res.status(200).send({ notes, count });
   } catch (error) {
