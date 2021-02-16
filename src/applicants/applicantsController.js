@@ -64,9 +64,9 @@ const getApplicant = async (req, res, next) => {
 };
 
 const deleteApplicant = async (req, res, next) => {
-  const { personId } = req.body;
+  const { id } = req.params;
   try {
-    const applicant = await Applicant.findByPk(personId);
+    const applicant = await Applicant.findByPk(id);
     applicant.statusId = STATUSES.deleted.id;
     await applicant.save();
     res.status(200).send({ status: STATUSES.deleted });

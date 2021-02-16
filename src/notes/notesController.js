@@ -75,4 +75,23 @@ const editNote = async (req, res, next) => {
   }
 };
 
-export default { getNotes, addNote, editNote };
+const deleteNote = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const note = await Note.findByPk(id);
+    if (req.userId !== note.personId) {
+      const error = new Error("Unauthorized");
+      error.statusCode = 401;
+      throw error;
+    }
+    await note.destroy();
+    res.status(200).send({});
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};
+
+export default { getNotes, addNote, editNote, deleteNote };
