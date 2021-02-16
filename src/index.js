@@ -4,6 +4,7 @@ import cors from "cors";
 
 import authRoutes from "./auth/authRoutes";
 import positionsRoutes from "./positions/positionsRoutes";
+import personsRoutes from "./persons/personsRoutes";
 import applicantsRoutes from "./applicants/applicantsRoutes";
 import notesRoutes from "./notes/notesRoutes";
 import statusesRoutes from "./statuses/statusesRoutes";
@@ -16,6 +17,7 @@ app.use(cors());
 
 app.use("/auth", authRoutes);
 app.use("/position", positionsRoutes);
+app.use("/person", personsRoutes);
 app.use("/applicant", applicantsRoutes);
 app.use("/note", notesRoutes);
 app.use("/status", statusesRoutes);
