@@ -4,7 +4,9 @@ import Person from "../persons/personsModel";
 const getNotes = async (req, res, next) => {
   const { page, limit, filter } = req.query;
   const order = req.query.order || "DESC";
-  const whereObj = filter ? { personId: req.userId } : { isPrivate: 0 };
+  const whereObj = filter
+    ? { personId: req.userId, isPrivate: filter }
+    : { isPrivate: 0 };
   try {
     const count = await Note.findAndCountAll({ where: whereObj });
     const notes = await Note.findAll({
