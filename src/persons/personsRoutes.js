@@ -3,7 +3,11 @@ import multer from "multer";
 
 import isAuth from "../middleware/isAuth";
 import isValid from "../middleware/isValid";
-import { validateEditPerson, validateGetPerson } from "./personsValidation";
+import {
+  validateEditPerson,
+  validateGetPerson,
+  validateChangePassword,
+} from "./personsValidation";
 import { validateImage } from "../auth/authValidation";
 import personsController from "./personsController";
 
@@ -26,6 +30,14 @@ router.post(
   isValid,
   validateImage,
   personsController.editPerson
+);
+
+router.patch(
+  "/:id",
+  isAuth,
+  validateChangePassword,
+  isValid,
+  personsController.changePassword
 );
 
 export default router;
