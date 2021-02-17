@@ -1,8 +1,11 @@
+import fs from "fs";
+
 import Applicant from "./applicantsModel";
 import Person from "../persons/personsModel";
 import Status from "../statuses/statusesModel";
 import Position from "../positions/positionsModel";
 import { STATUSES } from "../statuses/statusesConstants";
+import imageUploader from "../utils/imageUploader";
 
 const getAllApplicants = async (req, res, next) => {
   const order = req.query.order || "DESC";
@@ -108,10 +111,43 @@ const changeApplicantStatus = async (req, res, next) => {
   }
 };
 
+const uploadApplicantImage = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    if (!(req.files && req.files.length && req.files[0] && req.files[0].path)) {
+      const error = new Error("No file to upload");
+      error.statusCode = 400;
+      throw error;
+    }
+    const result = await imageUploader.upload(req.files[0].path);
+    await Person.update(
+      { imageUrl: result.url },
+      {
+        where: {
+          id: id,
+        },
+      }
+    );
+    fs.unlink(req.files[0].path, (error) => {
+      if (error) {
+        throw new Error("Could not delete a file", error);
+      }
+      console.log("Successfully deleted");
+    });
+    res.status(200).send(result.url);
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};
+
 export default {
   getAllApplicants,
   deleteApplicant,
   restoreApplicant,
   getApplicant,
   changeApplicantStatus,
+  uploadApplicantImage,
 };

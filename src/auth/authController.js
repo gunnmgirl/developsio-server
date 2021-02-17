@@ -15,7 +15,7 @@ const signup = async (req, res, next) => {
       email: req.body.email,
       roleId: ROLES.applicant.id,
     });
-    if (req.files && req.files[0] && req.files[0].path) {
+    if (req.files && req.files.length && req.files[0] && req.files[0].path) {
       const result = await imageUploader.upload(req.files[0].path);
       person.imageUrl = result.url;
       await person.save();
