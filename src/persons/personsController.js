@@ -3,6 +3,8 @@ import fs from "fs";
 import Person from "../persons/personsModel";
 import imageUploader from "../utils/imageUploader";
 
+const passwordHasher = require("../utils/passwordHasher");
+
 const getPerson = async (req, res, next) => {
   const { id } = req.params;
   try {
@@ -55,7 +57,35 @@ const editPerson = async (req, res, next) => {
   }
 };
 
+const changePassword = async (req, res, next) => {
+  const { id } = req.params;
+  const { newPassword } = req.body;
+  try {
+    if (req.userId !== parseInt(id)) {
+      const error = new Error("Unauthorized");
+      error.statusCode = 401;
+      throw error;
+    }
+    const hashedPassword = await passwordHasher.hash(newPassword);
+    await Person.update(
+      { password: hashedPassword },
+      {
+        where: {
+          id: id,
+        },
+      }
+    );
+    res.sendStatus(200);
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};
+
 export default {
   getPerson,
   editPerson,
+  changePassword,
 };
