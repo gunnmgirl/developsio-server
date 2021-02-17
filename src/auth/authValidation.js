@@ -67,7 +67,7 @@ export const validateLogin = [
 
 export const validateImage = async (req, res, next) => {
   try {
-    if (req.files && req.files[0] && req.files[0].path) {
+    if (req.files && req.files.length && req.files[0] && req.files[0].path) {
       if (
         req.files[0].mimetype !== "image/jpeg" &&
         req.files[0].mimetype !== "image/png"

@@ -9,7 +9,7 @@ const isValid = async (req, res, next) => {
       error.statusCode = 422;
       error.data = errors.array();
       error.message = error.data[0].msg;
-      if (req.files && req.files[0] && req.files[0].path) {
+      if (req.files && req.files.length && req.files[0] && req.files[0].path) {
         fs.unlink(req.files[0].path, (error) => {
           if (error) {
             throw new Error("Could not delete a file", error);

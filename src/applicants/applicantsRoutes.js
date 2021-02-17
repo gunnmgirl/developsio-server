@@ -1,12 +1,17 @@
 import express from "express";
-import isAuth from "../middleware/isAuth";
+import multer from "multer";
 
+import isAuth from "../middleware/isAuth";
 import applicantsController from "./applicantsController";
 import {
   validateUpdateApplicantStatus,
   validateDeleteApplicant,
+  validateUploadApplicantImage,
 } from "./applicantsValidation";
+import { validateImage } from "../auth/authValidation";
 import isValid from "../middleware/isValid";
+
+const upload = multer({ dest: "uploads/" });
 
 const router = express.Router();
 
@@ -26,6 +31,15 @@ router.post(
   validateUpdateApplicantStatus,
   isValid,
   applicantsController.changeApplicantStatus
+);
+router.patch(
+  "/:id",
+  upload.any("imageFile"),
+  isAuth,
+  validateUploadApplicantImage,
+  isValid,
+  validateImage,
+  applicantsController.uploadApplicantImage
 );
 
 export default router;

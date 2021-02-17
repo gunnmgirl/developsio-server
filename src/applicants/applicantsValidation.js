@@ -8,3 +8,7 @@ export const validateUpdateApplicantStatus = [
 export const validateDeleteApplicant = [
   check("id").notEmpty().withMessage("personId is required!"),
 ];
+
+export const validateUploadApplicantImage = [
+  check("id").notEmpty().withMessage("personId is required!"),
+];
