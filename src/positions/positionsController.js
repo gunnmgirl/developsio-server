@@ -30,4 +30,21 @@ const addPosition = async (req, res, next) => {
   }
 };
 
-export default { getAllPositions, addPosition };
+const editPosition = async (req, res, next) => {
+  const { name, details } = req.body;
+  const { id } = req.params;
+  try {
+    const position = await Position.findByPk(id);
+    position.name = name;
+    position.details = details;
+    await position.save();
+    res.status(200).send(position);
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};
+
+export default { getAllPositions, addPosition, editPosition };
